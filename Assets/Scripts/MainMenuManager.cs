@@ -2,28 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public GameObject highscorePanel;
+    public GameObject[] panels = new GameObject[2];
+    public GameObject[] paddleButtons = new GameObject[5];
+
+    private int currentPanel, currentPaddleColor;
+    private GameManager gameManager;
+
     void Start()
     {
-        
+        gameManager = GameManager.Instance;
+
+        currentPaddleColor = gameManager.GetPaddleColorIndex();
+        SetPaddleColor(currentPaddleColor);
     }
 
-    void Update()
+    public void StartGame()
     {
-        
+        SceneManager.LoadScene(1);
     }
 
-    public void OpenHighscores()
+    public void OpenPanel(int panelID)
     {
-        highscorePanel.SetActive(true);
+        panels[panelID].SetActive(true);
+        currentPanel = panelID;
     }
 
-    public void CloseHighscore()
+    public void ClosePanel()
     {
-        highscorePanel.SetActive(false);
+        panels[currentPanel].SetActive(false);
+    }
+
+    public void SetPaddleColor(int colorID)
+    {
+        paddleButtons[currentPaddleColor].GetComponent<Outline>().enabled = false;
+        paddleButtons[colorID].GetComponent<Outline>().enabled = true;
+        currentPaddleColor = colorID;
+        gameManager.SetPaddleInfo(paddleButtons[currentPaddleColor].GetComponent<Image>().color, currentPaddleColor);
     }
 
     public void Exit()

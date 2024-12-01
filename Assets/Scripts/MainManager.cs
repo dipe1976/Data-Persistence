@@ -12,16 +12,24 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public GameObject ExitPanel;
+    public GameObject Paddle;
     
     private bool m_Started = false;
-    private int m_Points;
-    
+    private bool m_Paused = false;
     private bool m_GameOver = false;
+    private int m_Points;
+
+    private GameManager gameManager;
+    private Color paddleColor;
 
     
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.Instance;
+        Paddle.GetComponent<Renderer>().material.SetColor("_BaseColor", gameManager.GetPaddleColor());
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -60,6 +68,12 @@ public class MainManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape) && !m_Paused)
+        {
+            m_Paused = true;
+            Time.timeScale = 0.0f;
+            ExitPanel.SetActive(true);
+        }
     }
 
     void AddPoint(int point)
@@ -72,5 +86,19 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+    public void BackToMenu()
+    {
+        m_Paused = false;
+        m_Started = false;
+        SceneManager.LoadScene(0);
+    }
+
+    public void BackToGame()
+    {
+        m_Paused = false;
+        Time.timeScale = 1.0f;
+        ExitPanel.SetActive(false);
     }
 }
