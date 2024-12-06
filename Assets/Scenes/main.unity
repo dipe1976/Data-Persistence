@@ -791,11 +791,11 @@ MonoBehaviour:
   LineCount: 6
   Ball: {fileID: 177912862}
   ScoreText: {fileID: 188020406}
+  HighScoreText: {fileID: 2078529056}
   GameOverText: {fileID: 474497238}
   ExitPanel: {fileID: 10291797}
   Paddle: {fileID: 97436041}
-  m_Started: 0
-  m_Paused: 0
+  brickCount: 0
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0

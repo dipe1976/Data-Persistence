@@ -289,7 +289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 184.00003}
+  m_AnchoredPosition: {x: 0, y: 196.06}
   m_SizeDelta: {x: 203.3279, y: 46.6721}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &82071551
@@ -576,6 +576,10 @@ MonoBehaviour:
   - {fileID: 631791897}
   - {fileID: 1047353310}
   - {fileID: 1391108779}
+  highScoreText: {fileID: 142374141}
+  settingsString: {fileID: 867013563}
+  difficultyDropdown: {fileID: 1202547713}
+  nameField: {fileID: 1443514123}
 --- !u!1 &142374139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1224,7 +1228,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back to menu
+  m_text: Save options
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2485,7 +2489,7 @@ GameObject:
   - component: {fileID: 867013564}
   - component: {fileID: 867013563}
   m_Layer: 5
-  m_Name: UserName
+  m_Name: SettingsString
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2507,8 +2511,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 138.00003}
-  m_SizeDelta: {x: 415.2065, y: 24.445}
+  m_AnchoredPosition: {x: 0.3263, y: 144.0634}
+  m_SizeDelta: {x: 412.5753, y: 57.3246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &867013563
 MonoBehaviour:
@@ -2530,7 +2534,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Your name: unknown'
+  m_text: 'Your name: unknown
+
+    Difficulty: none'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3434,7 +3440,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 137465835}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: SetDifficulty
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &1202547714
 MonoBehaviour:
@@ -4049,7 +4067,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 137465835}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: SetPlayerName
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5084,7 +5114,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPaddleColor: {r: 0, g: 0, b: 0, a: 0}
   currentDifficulty: 0
+  difficultyModifier: 0.5
   currentColorID: 0
+  playerName: unknown
+  haseSeenSettings: 0
+  bestHighscoreName: unknown
+  bestHighscorePoints: 0
 --- !u!4 &1793169146
 Transform:
   m_ObjectHideFlags: 0

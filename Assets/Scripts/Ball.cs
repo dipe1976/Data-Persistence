@@ -2,13 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game;
 
 public class Ball : MonoBehaviour
 {
     private Rigidbody m_Rigidbody;
+    private GameManager gameManager;
 
     void Start()
     {
+        gameManager = GameManager.Instance;
         m_Rigidbody = GetComponent<Rigidbody>();
     }
     
@@ -26,9 +29,9 @@ public class Ball : MonoBehaviour
         }
 
         //max velocity
-        if (velocity.magnitude > 3.0f)
+        if (velocity.magnitude > (3.0f * gameManager.difficultyModifier))
         {
-            velocity = velocity.normalized * 3.0f;
+            velocity = velocity.normalized * (3.0f * gameManager.difficultyModifier);
         }
 
         m_Rigidbody.velocity = velocity;

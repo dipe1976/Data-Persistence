@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Game;
 
 public class MainManager : MonoBehaviour
 {
     public Brick BrickPrefab;
-    public int LineCount = 6;
+    public int LineCount = 1;
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HighScoreText;
     public GameObject GameOverText;
     public GameObject ExitPanel;
     public GameObject Paddle;
@@ -18,17 +20,18 @@ public class MainManager : MonoBehaviour
     private bool m_Started = false;
     private bool m_Paused = false;
     private bool m_GameOver = false;
-    private int m_Points;
+    private int m_Points = 0;
+    public int brickCount = 0;
 
     private GameManager gameManager;
-    private Color paddleColor;
 
     
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameManager.Instance;
-        Paddle.GetComponent<Renderer>().material.SetColor("_BaseColor", gameManager.GetPaddleColor());
+        Paddle.GetComponent<Renderer>().material.SetColor("_BaseColor", gameManager.currentPaddleColor);
+        HighScoreText.text = $"Best score: {gameManager.bestHighscoreName} | {gameManager.bestHighscorePoints} points";
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -42,6 +45,7 @@ public class MainManager : MonoBehaviour
                 var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
+                brickCount++;
             }
         }
     }
@@ -58,7 +62,7 @@ public class MainManager : MonoBehaviour
                 forceDir.Normalize();
 
                 Ball.transform.SetParent(null);
-                Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+                Ball.AddForce(forceDir * (2.0f * gameManager.difficultyModifier), ForceMode.VelocityChange);
             }
         }
         else if (m_GameOver)
@@ -78,20 +82,27 @@ public class MainManager : MonoBehaviour
 
     void AddPoint(int point)
     {
-        m_Points += point;
+        m_Points += Mathf.RoundToInt((float)point * gameManager.difficultyModifier);
         ScoreText.text = $"Score : {m_Points}";
+        brickCount--;
+        if (brickCount == 0)
+        {
+            GameOver();
+        }
     }
 
     public void GameOver()
     {
+        Ball.constraints = RigidbodyConstraints.FreezeAll;
         m_GameOver = true;
         GameOverText.SetActive(true);
+        gameManager.AddHighScore(gameManager.playerName, m_Points);
+        HighScoreText.text = $"Best score: {gameManager.bestHighscoreName} | {gameManager.bestHighscorePoints} points";
     }
 
     public void BackToMenu()
     {
-        m_Paused = false;
-        m_Started = false;
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(0);
     }
 
